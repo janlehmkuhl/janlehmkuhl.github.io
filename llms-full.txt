@@ -1,0 +1,39 @@
+---
+layout: null
+permalink: /llms-full.txt
+sitemap: false
+---
+# {{ site.title }}
+
+> {{ site.description | strip_newlines }}
+
+Full text of all articles on {{ '/' | absolute_url }} by {{ site.social.name }}, newest first.
+{% for post in site.posts %}
+---
+
+# {{ post.title }}
+
+- URL: {{ post.url | absolute_url }}
+- Published: {{ post.date | date: '%Y-%m-%d' }}
+{%- if post.last_modified_at %}
+- Updated: {{ post.last_modified_at | date: '%Y-%m-%d' }}
+{%- endif %}
+- Language: {{ post.lang | default: site.lang }}
+{%- if post.categories.size > 0 %}
+- Categories: {{ post.categories | join: ', ' }}
+{%- endif %}
+{%- if post.tags.size > 0 %}
+- Tags: {{ post.tags | join: ', ' }}
+{%- endif %}
+{%- if post.bc_version %}
+- Business Central version: {{ post.bc_version }}
+{%- endif %}
+{%- if post.objects %}
+- AL objects: {{ post.objects | join: ', ' }}
+{%- endif %}
+{%- if post.description %}
+- Summary: {{ post.description | strip_newlines }}
+{%- endif %}
+
+{{ post.markdown | strip }}
+{% endfor %}
