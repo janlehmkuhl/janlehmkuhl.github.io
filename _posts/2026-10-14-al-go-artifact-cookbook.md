@@ -6,6 +6,8 @@ tags: [al-go, artifacts, bccontainerhelper, versioning, ci-cd]
 description: "A cookbook of AL-Go artifact settings, grouped by what you want to achieve, with the Business Central version each one actually resolves to."
 ---
 
+🇩🇪 [Deutsche Version]({% post_url 2026-10-14-al-go-artifact-cookbook-de %})
+
 The `artifact` setting decides which Business Central version AL-Go builds and tests your apps against. It lives in your AL-Go settings, usually `.AL-Go/settings.json`:
 
 ```json
