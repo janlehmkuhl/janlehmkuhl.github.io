@@ -1,0 +1,29 @@
+---
+layout: null
+permalink: /llms.txt
+sitemap: false
+---
+{%- assign primary_posts = site.posts | where_exp: "post", "post.lang == nil or post.lang == site.lang" -%}
+{%- assign translated_posts = site.posts | where_exp: "post", "post.lang != nil and post.lang != site.lang" -%}
+# {{ site.title }}
+
+> {{ site.description | strip_newlines }}
+
+Personal blog by {{ site.social.name }}. Articles are written in English; selected German translations are listed separately. Every article carries front matter metadata (categories, tags and, where relevant, the Business Central version and AL object types), available in machine-readable form in the JSON index below.
+
+The full text of all articles as Markdown: [llms-full.txt]({{ '/llms-full.txt' | absolute_url }})
+
+## Articles
+{% for post in primary_posts %}
+- [{{ post.title }}]({{ post.url | absolute_url }}){% if post.description %}: {{ post.description | strip_newlines }}{% endif %}
+{%- endfor %}
+{% if translated_posts.size > 0 %}
+## German translations
+{% for post in translated_posts %}
+- [{{ post.title }}]({{ post.url | absolute_url }}){% if post.description %}: {{ post.description | strip_newlines }}{% endif %}
+{%- endfor %}
+{% endif %}
+## Optional
+
+- [JSON index]({{ '/index.json' | absolute_url }}): All articles with full metadata
+- [Atom feed]({{ '/feed.xml' | absolute_url }}): Latest articles

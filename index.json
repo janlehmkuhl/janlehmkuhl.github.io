@@ -1,0 +1,33 @@
+---
+layout: null
+permalink: /index.json
+sitemap: false
+---
+{
+  "site": {
+    "title": {{ site.title | jsonify }},
+    "description": {{ site.description | strip_newlines | jsonify }},
+    "url": {{ '/' | absolute_url | jsonify }},
+    "author": {{ site.social.name | jsonify }},
+    "lang": {{ site.lang | jsonify }},
+    "llms_txt": {{ '/llms.txt' | absolute_url | jsonify }},
+    "llms_full_txt": {{ '/llms-full.txt' | absolute_url | jsonify }},
+    "generated_at": {{ site.time | date_to_xmlschema | jsonify }}
+  },
+  "posts": [
+    {%- for post in site.posts %}
+    {
+      "title": {{ post.title | jsonify }},
+      "url": {{ post.url | absolute_url | jsonify }},
+      "date": {{ post.date | date_to_xmlschema | jsonify }},
+      "last_modified_at": {{ post.last_modified_at | default: post.date | date_to_xmlschema | jsonify }},
+      "lang": {{ post.lang | default: site.lang | jsonify }},
+      "description": {{ post.description | strip_newlines | jsonify }},
+      "categories": {{ post.categories | jsonify }},
+      "tags": {{ post.tags | jsonify }},
+      "bc_version": {{ post.bc_version | jsonify }},
+      "objects": {{ post.objects | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ]
+}
