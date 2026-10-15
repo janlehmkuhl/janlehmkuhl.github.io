@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 #
 # Download the Business Central artifact indexes at build time and publish
-# a compact snapshot as /assets/data/bc-artifacts.json for the Artifact Builder.
+# compact snapshots for the tools: /assets/data/bc-artifacts.json (Artifact
+# Builder) and /assets/data/bc-releases.json (Release Map).
 # Microsoft's CDN sends no CORS headers, so the browser can't query it directly.
 
 require 'json'
@@ -57,6 +58,16 @@ module BcArtifacts
     version.split('.').first(2).join('.')
   end
 
+  # First build per major.minor as [major.minor, epoch seconds, version], oldest first
+  def first_builds(entries)
+    entries.group_by { |e| major_minor(e['Version']) }
+           .map do |mm, builds|
+             first = builds.min_by { |e| e['CreationTime'] }
+             [mm, Time.parse(first['CreationTime']).to_i, first['Version']]
+           end
+           .sort_by { |mm, _, _| version_key(mm) }
+  end
+
   # versions: sorted union of all versions that also exist in the platform index
   # countries: per country the indexes of versions it lacks, and creation times
   #            (epoch seconds) for its newest major.minor (needed for daily/weekly)
@@ -86,12 +97,19 @@ module BcArtifacts
         'times'   => times
       }
     end
-    { 'versions' => versions, 'countries' => result }
+    { 'versions' => versions, 'countries' => result, 'releases' => first_builds(indexes['w1'] || []) }
   end
 
+  # On-premises artifacts keep their original creation dates (one build per cumulative
+  # update), so they date each release. Sandbox indexes are republished and can't.
   def download
     sources = SOURCES.to_h { |account, type| ["#{account}/#{type}", build_source(account, type)] }
-    { 'generated' => Time.now.utc.iso8601, 'sources' => sources }
+    releases = {
+      'onprem'  => sources['bcartifacts/onprem'].delete('releases'),
+      'insider' => sources['bcinsider/sandbox'].delete('releases')
+    }
+    sources.each_value { |src| src.delete('releases') }
+    { 'generated' => Time.now.utc.iso8601, 'sources' => sources, 'releases' => releases }
   end
 
   class Generator < Jekyll::Generator
@@ -101,6 +119,7 @@ module BcArtifacts
     def generate(site)
       cache_file = File.join(site.source, '.jekyll-cache', 'bc-artifacts.json')
       data = cached(cache_file)
+      data = nil if data && !data['releases']
 
       unless data
         begin
@@ -110,19 +129,24 @@ module BcArtifacts
           Jekyll.logger.info 'BC artifacts:', 'index snapshot downloaded'
         rescue StandardError => e
           Jekyll.logger.warn 'BC artifacts:', "download failed (#{e.message})"
-          data = cached(cache_file, ignore_ttl: true) || { 'generated' => nil, 'sources' => {} }
+          data = cached(cache_file, ignore_ttl: true) || { 'generated' => nil, 'sources' => {}, 'releases' => {} }
         end
       end
 
-      page = Jekyll::PageWithoutAFile.new(site, site.source, 'assets/data', 'bc-artifacts.json')
-      page.content = JSON.generate(data)
+      publish(site, 'bc-artifacts.json', 'generated' => data['generated'], 'sources' => data['sources'])
+      publish(site, 'bc-releases.json', { 'generated' => data['generated'] }.merge(data['releases'] || {}))
+    end
+
+    private
+
+    def publish(site, name, content)
+      page = Jekyll::PageWithoutAFile.new(site, site.source, 'assets/data', name)
+      page.content = JSON.generate(content)
       page.data['layout'] = nil
       page.data['sitemap'] = false
       page.data['render_with_liquid'] = false
       site.pages << page
     end
-
-    private
 
     def cached(file, ignore_ttl: false)
       return nil unless File.exist?(file)

@@ -8,7 +8,7 @@ description: "A cookbook of AL-Go artifact settings, grouped by what you want to
 
 🇩🇪 [Deutsche Version]({% post_url 2026-10-14-al-go-artifact-cookbook-de %})
 
-> Build your own value and see what it resolves to today: [Artifact Builder]({{ '/artifact-builder/' | relative_url }})
+> Click together an `artifact` setting and see which version it resolves to today: [Artifact Builder]({{ '/artifact-builder/' | relative_url }})
 {: .prompt-tip }
 
 The `artifact` setting decides which Business Central version AL-Go builds and tests your apps against. It lives in your AL-Go settings, usually `.AL-Go/settings.json`:
@@ -20,65 +20,67 @@ The `artifact` setting decides which Business Central version AL-Go builds and t
 }
 ```
 
-A value has five parts, and every part can be left empty:
+`country` is a separate setting: the localization AL-Go builds for. The value of `artifact` (`//28.5/de/latest` above) has five parts, separated by `/`. Every part can be left empty, which is why values like `////nextmajor` are valid:
 
 ```
 <storageAccount>/<type>/<version>/<country>/<select>
 ```
 
-| Part | If empty |
-|---|---|
-| `storageAccount` | `bcartifacts` (released versions) |
-| `type` | `Sandbox` |
-| `version` | any version |
-| `country` | the `country` setting (default `us`) |
-| `select` | `latest` |
+| Part | Values | If empty |
+|---|---|---|
+| `storageAccount` | `bcartifacts`, `bcinsider` | `bcartifacts` (released versions) |
+| `type` | `Sandbox`, `OnPrem` | `Sandbox` |
+| `version` | major (`28`), major.minor (`28.5`), full version (`28.5.54151.56322`), `*` | any version |
+| `country` | `w1`, `de`, `us`, `dk`, … (see [Reference](#reference)) | the `country` setting (default `us`) |
+| `select` | `latest`, `first`, `all`, `closest`, `secondtolastmajor`, `current`, `nextminor`, `nextmajor`, `daily`, `weekly` | `latest` |
 
-That's why values like `////nextmajor` are valid.
+Changing the `country` doesn't change the version you get. Microsoft publishes every build for all countries under the same version number: 29.0.54011.56330 exists for `w1`, `de`, `us` and `dk` alike. The country only decides which localization is included, meaning country-specific features such as local tax and reporting. `w1` is the worldwide base version without any localization.
 
-The country only selects the localization, not the version: `w1`, `de`, `us` and `dk` get exactly the same build numbers. `w1` is the worldwide base version without country-specific functionality; the localized versions build on it.
+That's why the examples below use different countries: the results are the same for each.
 
-All results below were resolved on **October 14, 2026**, two weeks after the release of 29.0.
+All results below were resolved on **October 14, 2026**, two weeks after the release of 29.0, with the `country` setting matching the `country` part of the `artifact` value.
 
 ## Always the current release
 
 | Setting | Resolves to | |
 |---|---|---|
-| *(not set)* | 29.0.54011.56330 | newest sandbox for your `country` |
-| `///w1/latest` | 29.0.54011.56330 | same, explicit |
-| `///de/daily` | 29.0.54011.56262 | newest build before today |
-| `///us/weekly` | 29.0.54011.56119 | newest build before last Sunday |
-| `///dk/current` | 29.0.54011.56330 | same as `latest` |
+| *(not set)* | 29.0.54011.56330 | newest sandbox for your `country` setting |
+| `///w1/latest` | 29.0.54011.56330 | newest `w1` sandbox |
+| `///de/daily` | 29.0.54011.56262 | newest `de` build before today |
+| `///us/weekly` | 29.0.54011.56119 | newest `us` build before last Sunday |
+| `///dk/current` | 29.0.54011.56330 | current `dk` release |
 
-All of these switch to the new major on release day. `daily` and `weekly` only reduce how often the artifact changes, so caches stay valid. They don't pin a version.
+All of these switch to the new major on release day (see the [Release Map]({{ '/release-map/' | relative_url }})). `daily` and `weekly` only reduce how often the artifact changes, so caches stay valid. They don't pin a version.
+
+`current` gives the same result as `latest`, but rejects `storageAccount`, `version` and `OnPrem`. AL-Go's own Test Current workflow uses `////latest`.
 
 ## Pin a version
 
 | Setting | Resolves to | |
 |---|---|---|
-| `//28/w1/latest` | 28.5.54151.56322 | newest build of major 28 |
-| `//28/de/first` | 28.0.46665.52632 | oldest build of major 28 |
-| `//28.5/us/latest` | 28.5.54151.56322 | newest build of 28.5 |
-| `//28.5/dk/first` | 28.5.54151.54178 | oldest build of 28.5 |
-| `//28.5.54151.56322/w1` | 28.5.54151.56322 | exactly this build |
-| `//28.5.54151.0/de/closest` | 28.5.54151.54178 | first build ≥ the given version within 28.5, otherwise the newest 28.5 |
-| `///us/secondtolastmajor` | 28.5.54151.56322 | newest build of the previous major |
-| `///dk/first` | 15.4.41023.43755 | oldest sandbox artifact available |
+| `//28/w1/latest` | 28.5.54151.56322 | newest `w1` build of major 28 |
+| `//28/de/first` | 28.0.46665.52632 | oldest `de` build of major 28 |
+| `//28.5/us/latest` | 28.5.54151.56322 | newest `us` build of 28.5 |
+| `//28.5/dk/first` | 28.5.54151.54178 | oldest `dk` build of 28.5 |
+| `//28.5.54151.56322/w1` | 28.5.54151.56322 | exactly this `w1` build |
+| `//28.5.54151.0/de/closest` | 28.5.54151.54178 | first `de` build ≥ the given version within 28.5, otherwise the newest 28.5 |
+| `///us/secondtolastmajor` | 28.5.54151.56322 | newest `us` build of the previous major |
+| `///dk/first` | 15.4.41023.43755 | oldest `dk` sandbox artifact available |
 
-- The version is a prefix: `28` matches all of 28.x, `28.1` matches 28.1 but not 28.10.
+- `version` is a prefix: `28` matches all of 28.x, `28.1` matches 28.1 but not 28.10.
 - Older minors keep receiving builds. 28.5 got a new one two weeks after 29.0 was released, so `//28.5/…/latest` always gives you the current hotfix level.
 - For majors up to 25, only one build per minor is kept. A pinned exact build number can disappear.
 
 ## Derive the version from your app
 
-With `*` as version, AL-Go uses your `applicationDependency`: the highest `application` version across your app.json files, but at least the AL-Go setting `applicationDependency` (default `18.0.0.0`).
+With `*` as `version`, AL-Go uses your `applicationDependency`: the highest `application` version across your app.json files, but at least the AL-Go setting `applicationDependency` (default `18.0.0.0`). You normally don't set that setting, since the value comes from your app.json files. AL-Go also stops the build if the artifact is older than this value.
 
-| Setting | app.json `application` | Resolves to | |
+| Setting | Application in app.json | Resolves to | |
 |---|---|---|---|
 | `//*/w1/first` | 28.0.0.0 | 28.0.46665.52632 | oldest build that satisfies your app |
 | `//*/de/latest` | 28.0.0.0 | 28.0.46665.56311 | newest build of **28.0**, not 28.5 |
 | `//*/us/latest` | 28.5.0.0 | 28.5.54151.56322 | newest build of 28.5 |
-| *(not set)* + `"updateDependencies": true` | 28.0.0.0 | 28.0.46665.52632 | oldest build ≥ your app's minimum, falls back to insider builds if there is none |
+| *(not set)* | 28.0.0.0 | 28.0.46665.52632 | with `"updateDependencies": true`: oldest build ≥ your app's minimum, falls back to insider builds if there is none |
 
 `*` stays within the major.minor of your `applicationDependency` and only works with `first` or `latest`.
 
@@ -88,10 +90,11 @@ With `*` as version, AL-Go uses your `applicationDependency`: the highest `appli
 |---|---|---|
 | `////nextminor` | 29.1.56191.0 | next minor (insider build) |
 | `////nextmajor` | 30.0.56306.0 | next major (insider build) |
-| `///dk/nextmajor` | 30.0.56306.0 | same, explicit country |
+| `///dk/nextmajor` | 30.0.56306.0 | same, with `country` set explicitly |
 | `bcinsider/Sandbox/30.0/de/latest` | 30.0.56306.0 | a specific insider version |
 
 - `nextminor` and `nextmajor` read from the `bcinsider` storage account. AL-Go accepts the insider EULA for you.
+- `nextminor` and `nextmajor` are sandbox-only; insider builds aren't available for on-premises.
 - From minor .5 on, `nextminor` returns the next major, since there is no .6 for sandboxes.
 - `nextmajor` is empty until Microsoft publishes the first insider build of the next major.
 - The PTE template ships with `.github/Test Next Minor.settings.json` and `.github/Test Next Major.settings.json`, which set exactly these values for the matching workflows. Workflow-specific settings files override the project settings.
@@ -105,7 +108,7 @@ With `*` as version, AL-Go uses your `applicationDependency`: the highest `appli
 | `/OnPrem//dk/weekly` | 29.0.54011.55407 | `daily`/`weekly` are treated as `latest` |
 | `/OnPrem//dech/latest` | 14.53.50097.0 | German-language Switzerland, ends with 14 |
 
-- On-premises has exactly one build per cumulative update, and minors go up to .6.
+- On-premises has exactly one build per cumulative update, one per month for 18 months, so its minors go up to .18 (26.0 to 26.18). Sandboxes stop at .5.
 - The language variants `dech`, `frbe`, `frca`, `frch`, `itch` and `nlbe` exist only on-premises and only up to 14. `na` ends with 16.
 - `us` has far fewer on-premises builds than `w1`. Everything before 11 and majors 13, 15 and 16 are missing, so `/OnPrem/16/us/latest` finds nothing while `/OnPrem/16/w1/latest` returns 16.19.35126.0.
 
@@ -120,7 +123,7 @@ With `*` as version, AL-Go uses your `applicationDependency`: the highest `appli
 | `/OnPrem/16/us/latest` | `No artifacts found for the artifact setting` |
 | `bcpublicpreview/Sandbox//w1/latest` | the storage account is empty today |
 
-`daily` and `weekly` can't be combined with a version. To stay on an older release, use `latest` with the version instead.
+`daily` and `weekly` can't be combined with a `version`. To stay on an older release, use `latest` with the `version` instead.
 
 ## Reference
 
@@ -150,12 +153,12 @@ For sandboxes, countries without their own localization are mapped automatically
 | `latest` | newest match | default |
 | `first` | oldest match | |
 | `all` | all matches, AL-Go uses the first | |
-| `closest` | first build ≥ version within its major.minor | version must be `x.x.x.x` |
-| `secondtolastmajor` | newest build of the previous major | no version |
-| `current` | current sandbox release | no storage account, version or `OnPrem` |
-| `nextminor` | next minor insider build | no storage account, version or `OnPrem` |
-| `nextmajor` | next major insider build | no storage account, version or `OnPrem` |
-| `daily` | newest build before today | no version; `latest` for `OnPrem` |
-| `weekly` | newest build before last Sunday | no version; `latest` for `OnPrem` |
+| `closest` | first build ≥ `version` within its major.minor | `version` must be `x.x.x.x` |
+| `secondtolastmajor` | newest build of the previous major | no `version` |
+| `current` | current sandbox release | no `storageAccount`, `version` or `OnPrem` |
+| `nextminor` | next minor insider build | no `storageAccount`, `version` or `OnPrem` |
+| `nextmajor` | next major insider build | no `storageAccount`, `version` or `OnPrem` |
+| `daily` | newest build before today | no `version`; `latest` for `OnPrem` |
+| `weekly` | newest build before last Sunday | no `version`; `latest` for `OnPrem` |
 
 Instead of a search value, `artifact` also accepts a full artifact URL starting with `https://`.

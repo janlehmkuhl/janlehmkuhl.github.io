@@ -26,6 +26,8 @@ The full text of all articles as Markdown: [llms-full.txt]({{ '/llms-full.txt' |
 ## Tools
 
 - [AL-Go Artifact Builder]({{ '/artifact-builder/' | absolute_url }}): Interactive builder for the AL-Go for GitHub `artifact` setting; shows which Business Central version a value resolves to
+- [Business Central Release Map]({{ '/release-map/' | absolute_url }}): When each Business Central version was released for cloud and on-premises, versions in preparation and expected releases
+- [Release data]({{ '/assets/data/bc-releases.json' | absolute_url }}): First build date and version per major.minor for on-premises and insider artifacts, refreshed daily (JSON)
 - [Artifact index snapshot]({{ '/assets/data/bc-artifacts.json' | absolute_url }}): All Business Central artifact versions per storage account, type and country, refreshed daily (JSON)
 
 ## Optional

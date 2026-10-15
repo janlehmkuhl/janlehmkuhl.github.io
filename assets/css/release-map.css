@@ -1,0 +1,217 @@
+/* Business Central release map, styled with Chirpy's theme variables (light and dark mode) */
+
+#release-map {
+  margin-top: 1rem;
+}
+
+.rm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-muted-color);
+}
+
+.rm-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.rm-key {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.rm-key-released {
+  background: var(--link-color);
+}
+
+.rm-key-preparation {
+  border: 2px solid var(--link-color);
+}
+
+.rm-key-expected {
+  border: 2px solid var(--text-muted-color);
+}
+
+.rm-key-bar {
+  width: 20px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--link-color);
+}
+
+.rm-frame {
+  position: relative;
+  display: flex;
+  padding: 0.5rem 0 0.25rem;
+}
+
+.rm-labels {
+  flex: none;
+}
+
+.rm-scroll {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.rm-chart {
+  display: block;
+  font-family: inherit;
+}
+
+.rm-grid {
+  stroke: var(--main-border-color);
+  stroke-width: 1;
+}
+
+.rm-grid-year {
+  stroke: var(--text-muted-color);
+  stroke-opacity: 0.5;
+}
+
+.rm-axis,
+.rm-note {
+  font-size: 11px;
+  fill: var(--text-muted-color);
+}
+
+.rm-axis-year {
+  font-weight: 600;
+  fill: var(--text-color);
+}
+
+.rm-lane {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--text-muted-color);
+}
+
+.rm-row,
+.rm-label {
+  font-size: 12px;
+  fill: var(--text-color);
+}
+
+.rm-label {
+  font-weight: 600;
+}
+
+.rm-today {
+  stroke: var(--text-color);
+  stroke-width: 1;
+}
+
+.rm-today-label {
+  font-size: 11px;
+  fill: var(--text-color);
+}
+
+.rm-hit {
+  fill: transparent;
+}
+
+.rm-mark {
+  cursor: default;
+  outline: none;
+}
+
+/* Dots carry a 2px ring in the surface color */
+.rm-dot {
+  stroke: var(--main-bg);
+  stroke-width: 2;
+}
+
+.rm-released .rm-dot {
+  fill: var(--link-color);
+}
+
+.rm-preparation .rm-dot {
+  fill: var(--main-bg);
+  stroke: var(--link-color);
+}
+
+.rm-expected .rm-dot {
+  fill: var(--main-bg);
+  stroke: var(--text-muted-color);
+}
+
+.rm-released .rm-bar {
+  fill: var(--link-color);
+}
+
+.rm-preparation .rm-bar {
+  fill: var(--link-color);
+  fill-opacity: 0.35;
+}
+
+.rm-expected .rm-bar {
+  fill: var(--text-muted-color);
+  fill-opacity: 0.25;
+}
+
+.rm-mark:hover .rm-dot,
+.rm-mark:focus .rm-dot,
+.rm-mark:hover .rm-bar,
+.rm-mark:focus .rm-bar {
+  filter: brightness(1.25);
+}
+
+.rm-mark:focus-visible .rm-hit {
+  stroke: var(--link-color);
+  stroke-width: 1;
+}
+
+.rm-tooltip {
+  position: absolute;
+  z-index: 3;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: 0.4rem;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.rm-tooltip div {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.rm-tooltip strong {
+  order: 2;
+  color: var(--text-color);
+}
+
+.rm-tooltip span {
+  order: 1;
+  color: var(--text-muted-color);
+}
+
+.rm-table {
+  margin-top: 1rem;
+}
+
+.rm-table > summary {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted-color);
+  cursor: pointer;
+}
+
+.rm-meta {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted-color);
+}
