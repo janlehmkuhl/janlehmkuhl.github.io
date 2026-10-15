@@ -8,6 +8,9 @@ description: "A cookbook of AL-Go artifact settings, grouped by what you want to
 
 🇩🇪 [Deutsche Version]({% post_url 2026-10-14-al-go-artifact-cookbook-de %})
 
+> Build your own value and see what it resolves to today: [Artifact Builder]({{ '/artifact-builder/' | relative_url }})
+{: .prompt-tip }
+
 The `artifact` setting decides which Business Central version AL-Go builds and tests your apps against. It lives in your AL-Go settings, usually `.AL-Go/settings.json`:
 
 ```json

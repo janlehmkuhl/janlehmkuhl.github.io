@@ -10,6 +10,9 @@ description: "Ein Kochbuch für die AL-Go-Einstellung artifact, gruppiert nach Z
 
 🇬🇧 [English version]({% post_url 2026-10-14-al-go-artifact-cookbook %})
 
+> Eigenen Wert zusammenklicken und sehen, worauf er heute auflöst: [Artifact Builder]({{ '/artifact-builder/' | relative_url }})
+{: .prompt-tip }
+
 Die Einstellung `artifact` legt fest, gegen welche Business-Central-Version AL-Go deine Apps baut und testet. Sie steht in den AL-Go-Einstellungen, meist in `.AL-Go/settings.json`:
 
 ```json

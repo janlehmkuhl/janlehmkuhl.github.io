@@ -1,0 +1,299 @@
+/* AL-Go artifact builder, styled with Chirpy's theme variables (light and dark mode) */
+
+#artifact-builder {
+  margin-top: 1rem;
+}
+
+.ab-output {
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: 0.75rem;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.ab-code {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--highlight-bg-color);
+  font-size: 1.05rem;
+}
+
+.ab-code code {
+  flex: 1;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: none;
+  color: var(--highlighter-rouge-color);
+}
+
+.ab-copy {
+  flex-shrink: 0;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid var(--btn-border-color);
+  border-radius: 0.4rem;
+  background: var(--button-bg);
+  color: var(--text-color);
+  font-size: 0.85rem;
+}
+
+.ab-result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.ab-result.is-error {
+  display: block;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.5rem;
+  background: var(--prompt-danger-bg);
+}
+
+.ab-version {
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.ab-result dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.1rem 0.75rem;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.ab-result dt {
+  font-weight: 400;
+  color: var(--text-muted-color);
+}
+
+.ab-result dd {
+  margin: 0;
+}
+
+.ab-url {
+  overflow-wrap: anywhere;
+}
+
+.ab-note {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.4rem;
+  background: var(--prompt-info-bg);
+  font-size: 0.85rem;
+}
+
+.ab-note.is-warning {
+  background: var(--prompt-warning-bg);
+}
+
+.ab-panel {
+  border: 1px solid var(--main-border-color);
+  border-radius: 0.75rem;
+}
+
+.ab-row {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: 0.5rem 1rem;
+  padding: 1rem;
+  border-top: 1px solid var(--main-border-color);
+}
+
+.ab-row:first-child {
+  border-top: none;
+}
+
+.ab-row.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.ab-label {
+  padding-top: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted-color);
+}
+
+.ab-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.ab-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.ab-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--btn-border-color);
+  border-radius: 0.5rem;
+  background: var(--button-bg);
+  color: var(--text-color);
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.ab-chip:hover {
+  border-color: var(--link-color);
+}
+
+.ab-chip.is-active {
+  border-color: var(--link-color);
+  box-shadow: 0 0 0 1px var(--link-color);
+  font-weight: 600;
+}
+
+.ab-chip.is-invalid {
+  border-style: dashed;
+  color: var(--text-muted-color);
+}
+
+.ab-chip-hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted-color);
+}
+
+.ab-select,
+.ab-input {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--btn-border-color);
+  border-radius: 0.5rem;
+  background: var(--main-bg);
+  color: var(--text-color);
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: 0.85rem;
+}
+
+.ab-input {
+  width: 100%;
+  max-width: 22rem;
+}
+
+.ab-input-short {
+  width: 9rem;
+}
+
+.ab-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-right: 1rem;
+}
+
+.ab-info {
+  width: 100%;
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted-color);
+}
+
+.ab-meta {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted-color);
+}
+
+@media (max-width: 576px) {
+  .ab-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ab-label {
+    padding-top: 0;
+  }
+}
+
+.ab-advanced {
+  border-top: 1px solid var(--main-border-color);
+}
+
+.ab-advanced > summary {
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted-color);
+  cursor: pointer;
+}
+
+.ab-advanced[open] > summary {
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.ab-advanced .ab-row:first-of-type {
+  border-top: none;
+}
+
+.ab-version del {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--text-muted-color);
+}
+
+.ab-version.is-changed {
+  animation: ab-flash 1.2s ease-out;
+}
+
+@keyframes ab-flash {
+  from {
+    background: var(--highlight-bg-color);
+    box-shadow: 0 0 0 0.4rem var(--highlight-bg-color);
+  }
+
+  to {
+    background: transparent;
+    box-shadow: 0 0 0 0.4rem transparent;
+  }
+}
+
+.ab-info.ab-effect {
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.4rem;
+  background: var(--prompt-info-bg);
+  color: var(--text-color);
+}
+
+.ab-details {
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.ab-details > summary {
+  color: var(--text-muted-color);
+  cursor: pointer;
+}
+
+.ab-details[open] > summary {
+  margin-bottom: 0.4rem;
+}
+
+.ab-group {
+  margin: 0.5rem 0;
+}
+
+.ab-nested {
+  width: 100%;
+  margin-left: 1.5rem;
+}

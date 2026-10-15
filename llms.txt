@@ -23,6 +23,11 @@ The full text of all articles as Markdown: [llms-full.txt]({{ '/llms-full.txt' |
 - [{{ post.title }}]({{ post.url | absolute_url }}){% if post.description %}: {{ post.description | strip_newlines }}{% endif %}
 {%- endfor %}
 {% endif %}
+## Tools
+
+- [AL-Go Artifact Builder]({{ '/artifact-builder/' | absolute_url }}): Interactive builder for the AL-Go for GitHub `artifact` setting; shows which Business Central version a value resolves to
+- [Artifact index snapshot]({{ '/assets/data/bc-artifacts.json' | absolute_url }}): All Business Central artifact versions per storage account, type and country, refreshed daily (JSON)
+
 ## Optional
 
 - [JSON index]({{ '/index.json' | absolute_url }}): All articles with full metadata
