@@ -298,8 +298,8 @@
     tooltip.hidden = true;
     root.replaceChildren(legend(), frame, renderTable(model));
     const draw = () => {
-      frame.replaceChildren(scroll, tooltip);
-      const width = Math.max(scroll.clientWidth - 92, 640);
+      // Plot width: whatever the frame leaves next to the label column, at least 560px
+      const width = Math.max(frame.clientWidth - 92, 560);
       const { chart, labels } = renderChart(model, width);
       scroll.replaceChildren(chart);
       frame.replaceChildren(labels, scroll, tooltip);
