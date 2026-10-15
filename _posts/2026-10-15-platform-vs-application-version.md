@@ -46,6 +46,17 @@ Platform version shipped with sandbox artifacts (`w1`), as of October 15, 2026:
 - The application keeps its build per update and only increases the revision for hotfixes.
 - Both are hotfixed independently. The environment above runs application 28.5.54151.56021 on platform 28.0.54946.55473, while the artifact with the same application version ships platform 28.0.54946.55847.
 
+An environment also differs from the artifact in how its apps are versioned. In the artifact for 28.5.54151.56021, all 204 apps carry revision 56021. The environment above shows the same application version, but hotfixes only update the apps they change:
+
+| App in the environment | Version |
+|---|---|
+| Base Application | 28.5.54151.56021 |
+| System Application | 28.5.54151.55939 |
+| Application | 28.5.54151.54178 |
+| most other Microsoft apps | 28.5.54151.54178 |
+
+The application version in Help and Support is the Base Application's.
+
 ## In app.json
 
 ```json
@@ -61,6 +72,7 @@ Platform version shipped with sandbox artifacts (`w1`), as of October 15, 2026:
 | `application` | minimum application version | you use objects, fields or events from the Base or System Application that are new in that version |
 
 - Both are minimum versions. An app with `application` set to `28.0.0.0` is accepted on 28.0 and every later version. Set higher than the target environment, it can't be installed there.
+- Use major.minor.0.0 for `application`, never a full build. An environment's Application app can be older than the artifact you built against, as shown above: `28.5.54151.56021` would build fine but fail to install there.
 - Don't list the Base or System Application under `dependencies`; `application` covers them.
 - Many apps leave `platform` at `1.0.0.0`, AL-Go's "Create a new app" template included. Which platform an app needs is mostly decided by its `runtime`, which is a topic of its own.
 
