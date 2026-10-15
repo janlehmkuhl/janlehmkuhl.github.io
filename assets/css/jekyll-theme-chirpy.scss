@@ -1,0 +1,26 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+/* Let long table cells wrap instead of scrolling sideways; the first column
+   holds settings values like //28.5/de/latest and stays on one line */
+.content .table-wrapper > table td,
+.content .table-wrapper > table th {
+  white-space: normal;
+}
+
+.content .table-wrapper > table td:first-child {
+  white-space: nowrap;
+}
