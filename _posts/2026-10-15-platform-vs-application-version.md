@@ -1,5 +1,6 @@
 ---
 title: "Platform vs. application version in Business Central"
+draft: true
 date: 2026-10-15 16:00:00 +0200
 categories: [Business Central, AL]
 tags: [business-central, versioning, app-json, al-go]

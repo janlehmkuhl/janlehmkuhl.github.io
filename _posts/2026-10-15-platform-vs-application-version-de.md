@@ -1,5 +1,6 @@
 ---
 title: "Platform vs. Application Version in Business Central"
+draft: true
 date: 2026-10-15 16:30:00 +0200
 lang: de-DE
 hidden: true

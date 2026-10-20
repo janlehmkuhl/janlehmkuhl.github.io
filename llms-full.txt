@@ -19,6 +19,9 @@ Full text of all articles on {{ '/' | absolute_url }} by {{ site.social.name }},
 - Updated: {{ post.last_modified_at | date: '%Y-%m-%d' }}
 {%- endif %}
 - Language: {{ post.lang | default: site.lang }}
+{%- if post.draft %}
+- Status: draft, still being worked on
+{%- endif %}
 {%- if post.categories.size > 0 %}
 - Categories: {{ post.categories | join: ', ' }}
 {%- endif %}

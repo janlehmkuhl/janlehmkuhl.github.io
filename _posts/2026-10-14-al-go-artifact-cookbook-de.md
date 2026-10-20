@@ -1,5 +1,6 @@
 ---
 title: "Das AL-Go artifact Setting: jede Kombination, die funktioniert (und ein paar, die es nicht tun)"
+draft: true
 date: 2026-10-14 21:30:00 +0200
 lang: de-DE
 hidden: true
