@@ -22,6 +22,7 @@ sitemap: false
       "date": {{ post.date | date_to_xmlschema | jsonify }},
       "last_modified_at": {{ post.last_modified_at | default: post.date | date_to_xmlschema | jsonify }},
       "lang": {{ post.lang | default: site.lang | jsonify }},
+      "draft": {% if post.draft %}true{% else %}false{% endif %},
       "description": {{ post.description | strip_newlines | jsonify }},
       "categories": {{ post.categories | jsonify }},
       "tags": {{ post.tags | jsonify }},

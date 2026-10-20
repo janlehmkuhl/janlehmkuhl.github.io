@@ -1,5 +1,6 @@
 ---
 title: "The AL-Go artifact setting: every combination that works (and some that don't)"
+draft: true
 date: 2026-10-14 21:00:00 +0200
 categories: [AL-Go, DevOps]
 tags: [al-go, artifacts, bccontainerhelper, versioning, ci-cd]

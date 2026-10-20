@@ -15,12 +15,12 @@ The full text of all articles as Markdown: [llms-full.txt]({{ '/llms-full.txt' |
 
 ## Articles
 {% for post in primary_posts %}
-- [{{ post.title }}]({{ post.url | absolute_url }}){% if post.description %}: {{ post.description | strip_newlines }}{% endif %}
+- [{{ post.title }}]({{ post.url | absolute_url }}){% if post.draft %} (draft){% endif %}{% if post.description %}: {{ post.description | strip_newlines }}{% endif %}
 {%- endfor %}
 {% if translated_posts.size > 0 %}
 ## German translations
 {% for post in translated_posts %}
-- [{{ post.title }}]({{ post.url | absolute_url }}){% if post.description %}: {{ post.description | strip_newlines }}{% endif %}
+- [{{ post.title }}]({{ post.url | absolute_url }}){% if post.draft %} (draft){% endif %}{% if post.description %}: {{ post.description | strip_newlines }}{% endif %}
 {%- endfor %}
 {% endif %}
 ## Tools
